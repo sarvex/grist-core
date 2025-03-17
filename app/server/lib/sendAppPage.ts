@@ -18,6 +18,7 @@ import {isAnonymousUser, isSingleUserMode, RequestWithLogin} from 'app/server/li
 import {RequestWithOrg} from 'app/server/lib/extractOrg';
 import {GristServer} from 'app/server/lib/GristServer';
 import {getOnboardingTutorialDocId, getTemplateOrg} from 'app/server/lib/gristSettings';
+import {FlexServer} from 'app/server/lib/FlexServer';
 import {getSupportedEngineChoices} from 'app/server/lib/serverUtils';
 import {readLoadedLngs, readLoadedNamespaces} from 'app/server/localization';
 import * as express from 'express';
@@ -98,6 +99,7 @@ export function makeGristConfig(options: MakeGristConfigOptions): GristLoadConfi
     survey: Boolean(process.env.DOC_ID_NEW_USER_INFO),
     tagManagerId: process.env.GOOGLE_TAG_MANAGER_ID,
     activation: (req as RequestWithLogin|undefined)?.activation,
+    latestVersionAvailable: (server as FlexServer)?.getLatestVersionAvailable(),
     enableCustomCss: isAffirmative(process.env.APP_STATIC_INCLUDE_CUSTOM_CSS),
     supportedLngs: readLoadedLngs(req?.i18n),
     namespaces: readLoadedNamespaces(req?.i18n),
